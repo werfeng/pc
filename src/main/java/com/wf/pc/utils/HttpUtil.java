@@ -43,7 +43,7 @@ public class HttpUtil {
     public static String doGet(String url) {
 
         try {
-            Request request = new Request.Builder().url(url).build();
+            Request request = new Request.Builder().url(url).addHeader("Referer","https://baidurank.aizhan.com/").build();
             // 创建一个请求
             Response response = getInstance().newCall(request).execute();
             String result;

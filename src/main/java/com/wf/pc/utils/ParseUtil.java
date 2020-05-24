@@ -8,6 +8,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class ParseUtil {
     public static JSONArray parseBaiDuZhiShuHtml(String str){
         Document document = Jsoup.parse(str);
@@ -50,7 +53,11 @@ public class ParseUtil {
                         String text = aTag.html();
                         String href = aTag.attr("href");
                         object.put(UrlConstant.VK+k,text);
-                        object.put(UrlConstant.VKH+k,href);
+                        try {
+                            object.put(UrlConstant.VKH+k, URLEncoder. encode(href, "utf-8" ));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
                     }else{
                         Elements spanTag = td.getElementsByTag("span");
                         if(spanTag!=null && spanTag.size()>0){
