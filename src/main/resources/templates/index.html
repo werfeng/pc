@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>百度权重知乎excel下载</title>
-    <script type="text/javascript" src="static/jquery-3.3.1.min.js"></script>
+    <!--<script type="text/javascript" src="/static/jquery-3.3.1.min.js"></script>-->
     <script type="text/javascript">
         var websocket = null;
         var myDate = new Date();
@@ -14,7 +14,8 @@
             //ws统一标识符基于http请求，wss标识符基于https请求
             // websocket = new WebSocket("wss://famcoin.vip/CHAIN/websocket/c2ctradsocket/123456");
             // websocket = new WebSocket("ws://localhost:8081/CHAIN/websocket/c2ctradsocket/26");
-            websocket = new WebSocket("ws://localhost:8001/pc/websocket/"+time);
+            // websocket = new WebSocket("ws://localhost:8001/pc/websocket/"+time);//http
+            websocket = new WebSocket("wss://xaxaxax.xyz/websocket/"+time);//https
 
         } else {
             alert("浏览器不支持");
@@ -62,12 +63,30 @@
         }
 
         function req() {
-            var url = 'http://localhost:8001/pc/BaiDuZhiShu/'+time;
+            // var url = 'http://localhost:8001/pc/BaiDuZhiShu/'+time;//本地http
+            var url = 'https://xaxaxax.xyz/pc/BaiDuZhiShu/'+time;//线上https
+            //页面跳转
             // window.location.href ='http://localhost:8001/pc/BaiDuZhiShu/'+time;
-            //请求数据接口
+            //ajax请求数据接口
             // $.ajax({url:'http://localhost:8001/pc/BaiDuZhiShu/'+time,async:false});
             // window.open(url, "_blank", "scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+            //不打开新窗口，打开本页面的隐藏iframe（页面不展示）
             window.open(url, "aa");
+            //XMLHttpRequest同步/异步的方式
+            /*var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);//get请求，请求地址，是否异步
+            xhr.responseType = "blob";    // 返回类型blob
+            xhr.onload = function () {// 请求完成处理函数
+                if (this.status === 200) {
+                    var blob = this.response;// 获取返回值
+                    var a = document.createElement('a');
+                    a.download = 'time.xlsx';
+                    a.href=window.URL.createObjectURL(blob);
+                    a.click();
+                }
+            };
+            // 发送ajax请求
+            xhr.send();*/
         }
     </script>
 </head>
