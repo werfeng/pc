@@ -8,9 +8,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 public class ParseUtil {
     public static JSONArray parseBaiDuZhiShuHtml(String str){
         Document document = Jsoup.parse(str);
@@ -54,8 +51,37 @@ public class ParseUtil {
                         String href = aTag.attr("href");
                         object.put(UrlConstant.VK+k,text);
                         try {
-                            object.put(UrlConstant.VKH+k, URLEncoder. encode(href, "utf-8" ));
-                        } catch (UnsupportedEncodingException e) {
+//                            object.put(UrlConstant.VKH+k, URLEncoder.encode(href,"utf-8"));
+                            //对参数值进行url编码处理，网站ip和路径不处理，？之后的参数=的之后的参数值进行处理
+                            /*int paramIndex = href.indexOf("?");
+                            if(paramIndex!=-1){
+                                String queryString = href.substring(paramIndex + 1);
+                                String[] paramStr = queryString.split("&");
+                                href = href.substring(0,paramIndex+1);
+                                for (String strs:paramStr) {
+                                    //=号后面的值进行url编码处理
+                                    int i1 = strs.indexOf("=");
+                                    if(i1!=-1){
+                                        href+=strs.substring(0,i1+1)+URLEncoder.encode(strs.substring(i1+1),"utf-8")+"&";
+                                    }else{
+                                        href+=strs+"&";
+                                    }
+                                }
+                                //去除最后一个&
+                                if(href.lastIndexOf("&")==href.length()-1){
+                                    href = href.substring(0,href.length()-1);
+                                }
+                            }*/
+                            //对参数中存在空格进行替换 %20
+                            int paramIndex = href.indexOf("?");
+                            if(paramIndex!=-1){
+                                String queryString = href.substring(paramIndex + 1);
+                                if(queryString.indexOf(" ")!=-1){
+                                    href = href.substring(0,paramIndex+1)+queryString.replace(" ","%20");
+                                }
+                            }
+                            object.put(UrlConstant.VKH+k, href);
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }else{

@@ -55,7 +55,7 @@ public class WebsocketServer {
      * @param session 可选的参数
      */
     @OnMessage
-    public static void onMessage(String message, Session session) {
+    public void onMessage(String message, Session session) {
         System.out.println("来自客户端的消息:" + message);
         //群发消息
         Set<String> strings = webSocketSet.keySet();
@@ -87,10 +87,12 @@ public class WebsocketServer {
      * @param message
      * @throws IOException
      */
-    public void sendMessage(String message) throws IOException {
 
-        this.session.getBasicRemote().sendText(message);
-//        this.session.getAsyncRemote().sendText(message);
+    public void sendMessage(String message) throws IOException {
+        if(this.session.isOpen()){
+//            this.session.getBasicRemote().sendText(message);
+        this.session.getAsyncRemote().sendText(message);
+        }
     }
 
     /**
@@ -120,5 +122,9 @@ public class WebsocketServer {
 
     public static synchronized void subOnlineCount() {
         WebsocketServer.onlineCount--;
+    }
+
+    public static WebsocketServer getIndex(String time){
+        return webSocketSet.get(time);
     }
 }

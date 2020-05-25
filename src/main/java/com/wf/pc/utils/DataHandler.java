@@ -27,6 +27,13 @@ public final class DataHandler {
         //获取总页数
         String result = HttpUtil.doGet(UrlConstant.BAIDUZHISHU_DEFAULT_URL);
         int size = ParseUtil.getSize(result);
+        //获取wesocket对象
+        WebsocketServer websocketServer = WebsocketServer.getIndex(time);
+        //是否发送消息
+        boolean flag = false;
+        if(StringUtils.isNotEmpty(time) && websocketServer!=null){
+            flag=true;
+        }
         for(int i=1;i<=size;i++){
             try {
                 //网站限制一秒爬一次
@@ -39,9 +46,9 @@ public final class DataHandler {
             String pageInfo = HttpUtil.doGet(url);
             JSONArray subArray = ParseUtil.parseBaiDuZhiShuHtml(pageInfo);
             //websocket传输数据
-            if(StringUtils.isNotEmpty(time)){
+            if(flag){
                 try {
-                    WebsocketServer.sendMessageOne(time,"链接地址："+url+"，爬取数量："+subArray.size());
+                    websocketServer.sendMessage("链接地址："+url+"，爬取数量："+subArray.size());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Java后端WebSocket的Tomcat实现</title>
+    <title>百度权重知乎excel下载</title>
     <script type="text/javascript" src="static/jquery-3.3.1.min.js"></script>
     <script type="text/javascript">
         var websocket = null;
@@ -62,14 +62,19 @@
         }
 
         function req() {
+            var url = 'http://localhost:8001/pc/BaiDuZhiShu/'+time;
             // window.location.href ='http://localhost:8001/pc/BaiDuZhiShu/'+time;
-            $.ajax({url:'http://localhost:8001/pc/BaiDuZhiShu/'+time,async:false});
+            //请求数据接口
+            // $.ajax({url:'http://localhost:8001/pc/BaiDuZhiShu/'+time,async:false});
+            // window.open(url, "_blank", "scrollbars=yes,resizable=1,modal=false,alwaysRaised=yes");
+            window.open(url, "aa");
         }
     </script>
 </head>
 <body>
 <div>
     <button onclick="req()">百度权重知乎，下载excel</button>
+    <iframe name="aa" hidden></iframe>
     <div id="message"></div>
 </div>
 </body>
