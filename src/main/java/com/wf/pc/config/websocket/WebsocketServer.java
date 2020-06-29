@@ -89,9 +89,11 @@ public class WebsocketServer {
      */
 
     public void sendMessage(String message) throws IOException {
-        if(this.session.isOpen()){
+        synchronized (this.session){
+            if(this.session.isOpen()){
 //            this.session.getBasicRemote().sendText(message);
-        this.session.getAsyncRemote().sendText(message);
+                this.session.getAsyncRemote().sendText(message);
+            }
         }
     }
 

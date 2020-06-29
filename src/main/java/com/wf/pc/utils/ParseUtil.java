@@ -80,6 +80,8 @@ public class ParseUtil {
                                     href = href.substring(0,paramIndex+1)+queryString.replace(" ","%20");
                                 }
                             }
+                            //url 中 % 转义 %25  否则解析报错
+                            href = href.replaceAll("(?i)%(?![\\da-f]{2})", "%25");
                             object.put(UrlConstant.VKH+k, href);
                         } catch (Exception e) {
                             e.printStackTrace();

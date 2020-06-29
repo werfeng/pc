@@ -37,13 +37,24 @@ public final class DataHandler {
         for(int i=1;i<=size;i++){
             try {
                 //网站限制一秒爬一次
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             String url = UrlConstant.BAIDUZHISHU_PREFIX_URL+UrlConstant.BAIDUZHISHU_DEFAULT_WEB;
             url+=UrlConstant.BAIDUZHISHU_SUBCENTER_URL+UrlConstant.BAIDUZHISHU_CENTER_URL+i+UrlConstant.BAIDUZHISHU_SUFFIX_URL;
             String pageInfo = HttpUtil.doGet(url);
+            if(pageInfo.contains("您的查询太频繁了,请稍后查询")){
+                //请求过于频繁重新再来一次
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("请求频繁，重新请求一次");
+                i--;
+                continue;
+            }
             JSONArray subArray = ParseUtil.parseBaiDuZhiShuHtml(pageInfo);
             //websocket传输数据
             if(flag){

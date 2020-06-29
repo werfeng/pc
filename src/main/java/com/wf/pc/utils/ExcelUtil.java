@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.wf.pc.common.UrlConstant;
 import fr.opensagres.xdocreport.core.utils.StringUtils;
-import org.apache.poi.common.usermodel.Hyperlink;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.core.io.ClassPathResource;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +27,7 @@ public class ExcelUtil {
             cellFont.setUnderline((byte) 1);
             cellFont.setColor(HSSFColor.BLUE.index);
 
-            CreationHelper createHelper = workbook.getCreationHelper();
+            XSSFCreationHelper creationHelper = workbook.getCreationHelper();
 
             for (int j = 0; j < array.size(); j++) {
                 XSSFRow row = sheet.createRow(j + 1);
@@ -41,7 +39,7 @@ public class ExcelUtil {
                     XSSFCell likeCell = row.createCell(i);
                     //判断是否包含超链接
                     if (StringUtils.isNotEmpty(href)) {
-                        XSSFHyperlink hyperlink = (XSSFHyperlink) createHelper.createHyperlink(Hyperlink.LINK_URL);
+                        XSSFHyperlink hyperlink = creationHelper.createHyperlink(XSSFHyperlink.LINK_URL);
                         hyperlink.setAddress(href);
                         likeCell.setHyperlink(hyperlink);
                         linkStyle.setFont(cellFont);
